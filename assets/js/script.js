@@ -24,7 +24,7 @@ var specialRegEx = /[!\"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~]/;
 //unprovided function to create the password...
 function generatePassword() {
 
-  length  = prompt('Password length?');
+  length = prompt('Password length?');
   
   //checks for number to be in a range and that is infact a number...
   while ((length < 8 || length > 128) || !numericRegEx.test(length)) {
@@ -33,11 +33,13 @@ function generatePassword() {
   
   }
 
+  //confirm pop-ups for the user to select complexity...
   lower   = confirm('Lowercase characters?');
   upper   = confirm('Uppercase characters?');
   numeric = confirm('Numeric characters?');
   special = confirm('Special characters?');
   
+  //puts the different strings into an array to be selected from later...
   appendToStrArray(lower,   lowerStr);
   appendToStrArray(upper,   upperStr);
   appendToStrArray(numeric, numericStr);
@@ -46,6 +48,7 @@ function generatePassword() {
   console.log(strArray);
   var finalPass;
   
+  //funtion to add strings to the string array used to select characters from...
   function appendToStrArray(a, b) {
     
     if (a) {
@@ -56,6 +59,7 @@ function generatePassword() {
   
   }
 
+  //gets a random char from the different sets in the strArray...
   function getRandomFromSet(set) {
 
     var index = Math.floor(Math.random() * set.length);
@@ -64,6 +68,7 @@ function generatePassword() {
 
   }
 
+  //assembles the string arra 'passwordArray' that will be used to create 'finalPass' later...
   function buildPassword () {
     
     for (i = 0; i < length; i++) {
@@ -76,37 +81,34 @@ function generatePassword() {
     }
 
     finalPass = passwordArray.join("");
-    console.log(finalPass);
 
-    if (lower && lowerRegEx.test(finalPass)) {
-      console.log('yes lower');
-    } else {
-      console.log('no lower');
+    //these if statements check to see if 'finalPass' actually meets the criteria set by the user...
+    if (lower && !lowerRegEx.test(finalPass)) {
+      console.log('needs a lowercase...');
+      buildPassword();
     }
 
-    if (upper && upperRegEx.test(finalPass)) {
-      console.log('yes upper');
-    } else {
-      console.log('no upper');
+    if (upper && !upperRegEx.test(finalPass)) {
+      console.log('needs an uppercase...');
+      buildPassword();
     }
 
-    if (numeric && numericRegEx.test(finalPass)) {
-      console.log('yes numeric');
-    } else {
-      console.log('no numeric');
-    }
+    if (numeric && !numericRegEx.test(finalPass)) {
+      console.log('needs a numeric...');
+      buildPassword();
+    } 
 
-    if (special && specialRegEx.test(finalPass)) {
-      console.log('yes special');
-    } else {
-      console.log('no special');
+    if (special && !specialRegEx.test(finalPass)) {
+      console.log('needs a special character...');
+      buildPassword();
     }
 
   }
   
   buildPassword();
 
-  return finalPass;
+  // return finalPass;
+  alert(finalPass);
 
 }
 
@@ -116,7 +118,7 @@ var generateBtn = document.querySelector("#generate");
 // Write password to the #password input
 function writePassword() {
 
-  var password     = generatePassword();
+  var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;

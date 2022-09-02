@@ -13,27 +13,25 @@ var upperStr   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var numericStr = '1234567890'; 
 var specialStr = '!\"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~';
 
-var strArray = [];
-
-var lowerWasUsed   = false;
-var upperWasUsed   = false;
-var numericWasUsed = false;
-var specialWasUsed = false;
-
+var strArray      = [];
 var passwordArray = [];
 
-// console.log(lowerStr.length + ' ' + upperStr.length + ' ' + numericStr.length + ' ' + specialStr.length);
+var lowerRegEx   = /[a-z]/;
+var upperRegEx   = /[A-Z]/;
+var numericRegEx = /[0-9]/;
+var specialRegEx = /[!\"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~]/;
 
 //unprovided function to create the password...
 function generatePassword() {
 
   length  = prompt('Password length?');
   
-  while (length < 8 || length > 128) {
-    length = prompt('Please enter a number between 8 and 128');
-  }
+  //checks for number to be in a range and that is infact a number...
+  while ((length < 8 || length > 128) || !numericRegEx.test(length)) {
 
+    length = prompt('Please enter a number between 8 and 128');
   
+  }
 
   lower   = confirm('Lowercase characters?');
   upper   = confirm('Uppercase characters?');
@@ -63,17 +61,15 @@ function generatePassword() {
     var index = Math.floor(Math.random() * set.length);
 
     return set[index];
+
   }
 
   function buildPassword () {
     
-
-    
     for (i = 0; i < length; i++) {
       
       var strArrayIndex = Math.floor(Math.random() * strArray.length);
-      
-      var randomChar = getRandomFromSet(strArray[strArrayIndex])
+      var randomChar    = getRandomFromSet(strArray[strArrayIndex]);
 
       passwordArray.push(randomChar);
       
@@ -81,7 +77,31 @@ function generatePassword() {
 
     finalPass = passwordArray.join("");
     console.log(finalPass);
-    
+
+    if (lower && lowerRegEx.test(finalPass)) {
+      console.log('yes lower');
+    } else {
+      console.log('no lower');
+    }
+
+    if (upper && upperRegEx.test(finalPass)) {
+      console.log('yes upper');
+    } else {
+      console.log('no upper');
+    }
+
+    if (numeric && numericRegEx.test(finalPass)) {
+      console.log('yes numeric');
+    } else {
+      console.log('no numeric');
+    }
+
+    if (special && specialRegEx.test(finalPass)) {
+      console.log('yes special');
+    } else {
+      console.log('no special');
+    }
+
   }
   
   buildPassword();
@@ -96,7 +116,7 @@ var generateBtn = document.querySelector("#generate");
 // Write password to the #password input
 function writePassword() {
 
-  var password = generatePassword();
+  var password     = generatePassword();
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;

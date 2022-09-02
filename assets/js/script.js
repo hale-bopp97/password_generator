@@ -13,8 +13,7 @@ var upperStr   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var numericStr = '1234567890'; 
 var specialStr = '!\"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~';
 
-var strArray      = [];
-var passwordArray = [];
+
 
 var lowerRegEx   = /[a-z]/;
 var upperRegEx   = /[A-Z]/;
@@ -23,7 +22,10 @@ var specialRegEx = /[!\"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~]/;
 
 //unprovided function to create the password...
 function generatePassword() {
-
+var strArray      = [];
+var passwordArray = [];
+  // strArray = [];
+  // passwordArray= [];
   length = prompt('Password length?');
   
   //checks for number to be in a range and that is infact a number...
@@ -45,7 +47,7 @@ function generatePassword() {
   appendToStrArray(numeric, numericStr);
   appendToStrArray(special, specialStr);
 
-  console.log(strArray);
+  // console.log(strArray);
   var finalPass;
   
   //funtion to add strings to the string array used to select characters from...
@@ -80,6 +82,7 @@ function generatePassword() {
       
     }
 
+
     finalPass = passwordArray.join("");
 
     //these if statements check to see if 'finalPass' actually meets the criteria set by the user...
@@ -103,13 +106,20 @@ function generatePassword() {
       buildPassword();
     }
 
+    //TODO replace all the if's with this...
+    function checkPatern(boo, pat) {
+      if (boo && !pat.test(finalPass)) {
+        console.log('failed pattern test...');
+        buildPassword();
+      }
+    }
+
   }
   
   buildPassword();
 
-  // return finalPass;
-  alert(finalPass);
-
+  return finalPass;
+  
 }
 
 // Get references to the #generate element
@@ -117,11 +127,17 @@ var generateBtn = document.querySelector("#generate");
 
 // Write password to the #password input
 function writePassword() {
-
+    
+  
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
+
+  while(passwordArray.length > 0) {
+  passwordArray.pop;
+  }
+  
 
 }
 
